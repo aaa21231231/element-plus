@@ -1,43 +1,41 @@
-<template>
-  <div class="flex gap-4 mb-4">
-    <span>Using attributes</span>
-    <el-input
-      v-model="input1"
-      style="width: 240px"
-      placeholder="Pick a date"
-      :suffix-icon="Calendar"
-    />
-    <el-input
-      v-model="input2"
-      style="width: 240px"
-      placeholder="Type something"
-      :prefix-icon="Search"
-    />
-  </div>
-  <div class="flex gap-4">
-    <span>Using slots</span>
-    <el-input v-model="input3" style="width: 240px" placeholder="Pick a date">
-      <template #suffix>
-        <el-icon class="el-input__icon"><calendar /></el-icon>
-      </template>
-    </el-input>
-    <el-input
-      v-model="input4"
-      style="width: 240px"
-      placeholder="Type something"
-    >
-      <template #prefix>
-        <el-icon class="el-input__icon"><search /></el-icon>
-      </template>
-    </el-input>
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Calendar, Search } from '@element-plus/icons-vue'
-const input1 = ref('')
-const input2 = ref('')
-const input3 = ref('')
-const input4 = ref('')
+<template>  
+  <el-form :model="form" label-width="120px">  
+    <el-form-item label="数据">  
+      <span v-if="!isEditing">{{ form.data }}</span>  
+      <el-input v-else v-model="form.data" @input="handleInputChange"></el-input>  
+      <el-button @click="toggleEdit" v-if="!isEditing">编辑</el-button>  
+      <el-button @click="saveChanges" v-if="isEditing">保存</el-button>  
+      <el-button @click="cancelEdit" v-if="isEditing">取消</el-button>  
+    </el-form-item>  
+  </el-form>  
+</template>  
+  
+<script>  
+export default {  
+  data() {  
+    return {  
+      form: {  
+        data: '初始数据',  
+      },  
+      isEditing: false,  
+    };  
+  },  
+  methods: {  
+    toggleEdit() {  
+      this.isEditing = true;  
+    },  
+    saveChanges() {  
+      // 在这里处理保存逻辑，例如发送请求到后端  
+      console.log('保存数据:', this.form.data);  
+      this.isEditing = false;  
+    },  
+    cancelEdit() {  
+      // 在这里处理取消编辑的逻辑，例如恢复到原始数据  
+      this.isEditing = false;  
+    },  
+    handleInputChange() {  
+      // 可选的：处理输入变化事件，例如进行实时验证  
+    },  
+  },  
+};  
 </script>
